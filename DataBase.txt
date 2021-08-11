@@ -1,0 +1,134 @@
+USE [master]
+GO
+/****** Object:  Database [Resources]    Script Date: 11/08/2021 19:28:21 ******/
+CREATE DATABASE [Resources]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'Resources', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\Resources.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'Resources_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\Resources_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT
+GO
+ALTER DATABASE [Resources] SET COMPATIBILITY_LEVEL = 150
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [Resources].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [Resources] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [Resources] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [Resources] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [Resources] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [Resources] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [Resources] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [Resources] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [Resources] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [Resources] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [Resources] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [Resources] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [Resources] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [Resources] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [Resources] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [Resources] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [Resources] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [Resources] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [Resources] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [Resources] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [Resources] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [Resources] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [Resources] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [Resources] SET RECOVERY FULL 
+GO
+ALTER DATABASE [Resources] SET  MULTI_USER 
+GO
+ALTER DATABASE [Resources] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [Resources] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [Resources] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [Resources] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [Resources] SET DELAYED_DURABILITY = DISABLED 
+GO
+EXEC sys.sp_db_vardecimal_storage_format N'Resources', N'ON'
+GO
+ALTER DATABASE [Resources] SET QUERY_STORE = OFF
+GO
+USE [Resources]
+GO
+/****** Object:  Table [dbo].[System_resources]    Script Date: 11/08/2021 19:28:21 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[System_resources](
+	[Ram] [int] NOT NULL,
+	[Cpu] [int] NOT NULL,
+	[Disco] [int] NOT NULL,
+	[Fecha] [datetime] NOT NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Usuarios]    Script Date: 11/08/2021 19:28:21 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Usuarios](
+	[Nombre] [varchar](50) NOT NULL,
+	[Email] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_Usuarios] PRIMARY KEY CLUSTERED 
+(
+	[Nombre] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+INSERT [dbo].[Usuarios] ([Nombre], [Email]) VALUES (N'Arturo', N'Arthur40@gmail.com')
+GO
+INSERT [dbo].[Usuarios] ([Nombre], [Email]) VALUES (N'Jose', N'Joselito@gmail.com')
+GO
+/****** Object:  StoredProcedure [dbo].[Resource_Usage_Insert]    Script Date: 11/08/2021 19:28:21 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+create procedure [dbo].[Resource_Usage_Insert]
+(
+@Ram int,
+@Cpu int,
+@Disco int,
+@Fecha DateTime
+)
+as
+begin
+insert into System_resources (Ram, Cpu, Disco, Fecha)
+values(@Ram, @Cpu, @Disco, @Fecha)
+end
+GO
+USE [master]
+GO
+ALTER DATABASE [Resources] SET  READ_WRITE 
+GO
